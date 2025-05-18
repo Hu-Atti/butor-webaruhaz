@@ -1,59 +1,93 @@
 # ButorWebaruhaz
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.9.
+Pontozási segédlet
 
-## Development server
+Menj biztosra és ellenőrizd!
 
-To start a local development server, run:
+# Adatmodell definiálása (legalább 4 TypeScript interfész vagy class formájában (ugyanennyi kollekció))
+models / category
+models / furniture
+models / order
+models / user
 
-```bash
-ng serve
-```
+# Reszponzív, mobile-first felület (minden adat látható és jól jelenik meg böngészőben is, mobil nézetben is)
+elviekben az
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# Legalább 4, de 2 különböző attribútum direktíva használata
+products.component.ts 20:             <mat-select [(value)]="selectedCategory" (selectionChange)="loadFurniture()">
+products.component.ts 30:             <mat-select [(value)]="sortBy" (selectionChange)="loadFurniture()">
+profile.component.ts 21:              <input matInput [(ngModel)]="lastname" name="lastname" required />
+profile.component.ts 26:              <input matInput [(ngModel)]="firstname" name="firstname" required />
 
-## Code scaffolding
+# Legalább 4, de 2 különböző beépített vezérlési folyamat használata (if, switch, for)
+app.component.html 18:           @if (isLoggedIn) 
+products.component.html 47:      @if (isAdmin)
+cart.component.html 24:          @for (item of items; track item.furniture.id; let i = $index) 
+home.component.html 20:      @for (furniture of lowStockFurnitures; track furniture.id)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+# Adatátadás szülő és gyermek komponensek között (legalább 3 @Input és 3 @Output)
+furniture-card.component.ts 25:          @Input() furniture!: Furniture;
+furniture-card.component.ts 26:          @Input() isAdmin: boolean = false;
+furniture-card.component.ts 27:          @Input() isLoggedIn: boolean = false;
+furniture-card.component.ts 30:          @Output() addToCart = new EventEmitter<Furniture>();
+furniture-card.component.ts 31:          @Output() edit = new EventEmitter<Furniture>();
+furniture-card.component.ts 32:          @Output() delete = new EventEmitter<string>();
 
-```bash
-ng generate component component-name
-```
+# Legalább 10 különböző Material elem helyes használata.
+app.component.html 1:            <mat-sidenav-container>
+app.component.html 6:            <mat-toolbar>
+cart.component.html 10:          <mat-card class="filter-card">
+cart.component.html 11:          <mat-card-header>
+cart.component.html 23:          <mat-list>
+cart.component.html 25:          <mat-list-item>
+cart.component.html 30:          <button mat-icon-button (click)="updateQuantity(i, -1)">
+login.component.html 18:         <mat-label>Email</mat-label>
+login.component.html 23:         <mat-form-field appearance="outline">
+products.component.html 20:       <mat-select [(value)]="selectedCategory" (selectionChange)="loadFurniture()">
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+# Legalább 2 saját Pipe osztály írása és használata
+pipes / simple-currency      furniture-card.component.html 19:       <p>Ár: {{ furniture.price | simpleCurrency }}</p>
+pipes / stock-status         furniture-card.component.html 20:       <p>{{ furniture.quantity | stockStatus }}</p>
 
-```bash
-ng generate --help
-```
+# Adatbevitel Angular form-ok segítségével megvalósítva (legalább 4)
+login.component.html 16:         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="filter-controls">
+register.component.html 16:         <form [formGroup]="registerForm" (ngSubmit)="register()" class="filter-controls">
+profile.component.html 17:         <form (submit)="updateUser(); $event.preventDefault()" class="filter-controls">
+products.component.html 91:         <form [formGroup]="form" (ngSubmit)="save()">
 
-## Building
+# Legalább 2 különböző Lifecycle Hook használata a teljes projektben (értelmes tartalommal, nem üresen)
+cart.component.ts 43:          async ngOnInit()
+app.component.ts 41:          ngOnDestroy(): void
 
-To build the project run:
+# CRUD műveletek mindegyike megvalósult legalább a projekt fő entitásához (Promise, Observable használattal)
+services / furniture: CRUD
 
-```bash
-ng build
-```
+# CRUD műveletek service-ekbe vannak kiszervezve és megfelelő módon injektálva lettek
+Igen
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+# Legalább 4 komplex Firestore lekérdezés megvalósítása (ide tartoznak: where feltétel, rendezés, léptetés, limitálás)
+furniture.service.ts 65:            async getFilteredFurniture
+furniture.service.ts 84:            async getLowStockFurnitures
+order.service.ts 54:                async getUnconfirmedOrder
+user.service.ts 29:                 async fetchUserAndOrders
 
-## Running unit tests
+# Legalább 4 különböző route a különböző oldalak eléréséhez
+app.routes.ts:
+                home
+                products
+                profile
+                cart
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+# AuthGuard implementációja
+guards / auth
 
-```bash
-ng test
-```
+# Legalább 2 route levédése azonosítással (AuthGuard) (ahol ennek értelme van, pl.: egy fórum témakör megtekinthető bárki számára, de a regisztrált felhasználó adatai nem)
+app.routes.ts:
+                cart
+                profile
 
-## Running end-to-end tests
+# Szubjektív pontozás a projekt egészére vonatkozólag (mennyire fedi le a projekt a témakört (mennyire kapcsolódik hozzá), mennyi lehet a befektetett energia a projektben)
+amennyit gondolsz :)
 
-For end-to-end (e2e) testing, run:
 
-```bash
-ng e2e
-```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
