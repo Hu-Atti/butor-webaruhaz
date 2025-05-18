@@ -1,0 +1,42 @@
+<div class="content-container">
+  <div class="banner-container">
+    <img src="main_cover.png" alt="Főoldal" class="banner-image">
+    <div class="banner-text">
+      <h1>Üdvözöljük Bútorboltunkban!</h1>
+      <p>Fedezze fel kínálatunkat és találja meg új kedvenc bútordarabját</p>
+    </div>
+  </div>
+
+  <mat-card class="filter-card">
+    <mat-card-header>
+      <h3 class="header">
+        <mat-icon>warning</mat-icon>
+        Utolsó darabok, csapjon le most!
+      </h3>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="furniture-grid">
+        @for (furniture of lowStockFurnitures; track furniture.id) {
+          <app-furniture-card 
+            [furniture]="furniture"
+            [categories]="categories"
+            [isLoggedIn]="isLoggedIn"
+            (addToCart)="addToCart($event)"
+            class="furniture-card">
+          </app-furniture-card>
+        }
+        @empty {
+          <p class="no-items">Jelenleg nincsenek kifutó termékek</p>
+        }
+      </div>
+    </mat-card-content>
+
+    <div class="button-group">
+      <button mat-flat-button color="primary" routerLink="/products">
+        Tovább a termékekhez
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</div>

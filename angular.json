@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Butor-Webaruhaz": {
+    "butor-webaruhaz": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -41,12 +41,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "1000kB",
                   "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
+                  "maximumWarning": "5kB",
                   "maximumError": "8kB"
                 }
               ],
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Butor-Webaruhaz:build:production"
+              "buildTarget": "butor-webaruhaz:build:production"
             },
             "development": {
-              "buildTarget": "Butor-Webaruhaz:build:development"
+              "buildTarget": "butor-webaruhaz:build:development"
             }
           },
           "defaultConfiguration": "development"

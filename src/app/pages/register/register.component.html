@@ -1,0 +1,79 @@
+<div class="content-container">
+  <div class="banner-container">
+    <img src="login_cover.png" alt="Regisztráció" class="banner-image">
+    <div class="banner-text">
+      <h1>Regisztráció</h1>
+      <p>Hozzon létre fiókot az alkalmazás használatához</p>
+    </div>
+  </div>
+
+  <mat-card class="filter-card">
+    <div class="collapsible-header">
+      <mat-icon>person_add</mat-icon>
+      <h3>Regisztrációs adatok</h3>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()" class="filter-controls">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email cím</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-icon matSuffix>email</mat-icon>
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <mat-error>Az email címnek valósnak kell lennie!</mat-error>
+        }
+      </mat-form-field>
+
+       <div class="name-row" formGroupName="name">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstname">
+          <mat-icon matSuffix>person</mat-icon>
+          @if (registerForm.get('name.firstname')?.invalid && registerForm.get('name.firstname')?.touched) {
+            <mat-error>A keresztnévnek legalább 2 karakternek kell lennie!</mat-error>
+          }
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastname">
+          <mat-icon matSuffix>person</mat-icon>
+          @if (registerForm.get('name.lastname')?.invalid && registerForm.get('name.lastname')?.touched) {
+            <mat-error>A vezetéknévnek legalább 2 karakternek kell lennie!</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Jelszó</mat-label>
+        <input matInput type="password" formControlName="password">
+        <mat-icon matSuffix>lock</mat-icon>
+        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+          <mat-error>A jelszónak legalább 6 karakter hosszúnak kell lennie!</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Jelszó megerősítése</mat-label>
+        <input matInput type="password" formControlName="repassword">
+        <mat-icon matSuffix>lock</mat-icon>
+        @if (registerForm.get('repassword')?.value !== registerForm.get('password')?.value) {
+          <mat-error>A két jelszó nem egyezik!</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="button-group">
+        <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+          <mat-icon>person_add</mat-icon>
+          {{ loading ? 'Regisztrálás...' : 'Regisztráció' }}
+        </button>
+
+        <button mat-flat-button color="accent" [routerLink]="['/login']">
+          <mat-icon>login</mat-icon>
+          Bejelentkezés
+        </button>
+      </div>
+
+    </form>
+  </mat-card>
+</div>

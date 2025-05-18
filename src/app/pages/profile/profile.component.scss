@@ -1,0 +1,58 @@
+@use '../products/products.component.scss';
+
+.profile-card {
+  @extend .filter-card;
+}
+
+.circle-image {
+  border-radius: 50% !important;
+  width: 60px !important;
+  height: 60px !important;
+}
+
+.button-group {
+  @extend .button-group;
+  margin: 1rem 0;
+
+  &.delete-user {
+    justify-content: center;
+    margin-top: 2rem;
+  }
+}
+
+.no-orders {
+  @extend .no-items;
+}
+
+mat-list-item {
+  height: 80px !important;
+  border-bottom: 1px solid #eee;
+
+  .item-total {
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.admin-toggle {
+  margin: 1rem 0;
+}
+
+.filter-controls {
+  padding: 1rem;
+  
+  mat-form-field {
+    margin: 0.5rem 0;
+  }
+}
+
+mat-accordion {
+  margin: 20px auto;
+  width: 90%;
+}
+
+mat-expansion-panel {
+  margin: 0.5rem 0;
+  box-shadow: none !important;
+  border: 1px solid #eee;
+}

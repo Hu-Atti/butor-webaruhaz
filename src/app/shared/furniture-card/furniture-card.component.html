@@ -1,0 +1,35 @@
+<mat-card class="furniture-card">
+  <div class="image-container">
+    @if (isAdmin) {
+      <div class="admin-buttons">
+        <button mat-icon-button (click)="edit.emit(furniture)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="delete.emit(furniture.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+    <img [src]="furniture.picURL" [alt]="furniture.name">
+  </div>
+  
+  <div class="card-content">
+    <h3>{{ furniture.name }}</h3>
+    <p class="category">{{ getCategoryName(furniture.categoryId) }}</p>
+    <p>Ár: {{ furniture.price | simpleCurrency }}</p>
+    <p>{{ furniture.quantity | stockStatus }}</p>
+    
+    <div class="button-group">
+      @if (isLoggedIn) {
+        <button mat-flat-button color="primary" 
+                (click)="addToCart.emit(furniture)"
+                [disabled]="furniture.quantity < 1">
+          Kosárba
+          @if (furniture.quantity < 1) {
+            <mat-icon>block</mat-icon>
+          }
+        </button>
+      }
+    </div>
+  </div>
+</mat-card>

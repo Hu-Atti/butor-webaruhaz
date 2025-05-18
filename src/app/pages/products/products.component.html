@@ -1,0 +1,160 @@
+<div class="content-container">
+  <div class="banner-container">
+    <img src="products_cover.png" alt="Termékek" class="banner-image">
+    <div class="banner-text">
+      <h1>Termékeink</h1>
+      <p>Válogasson kedvére, használja a szűrőket, hogy megtalálja a következő bútorát</p>
+    </div>
+  </div>
+
+  <mat-card class="filter-card">
+    <div class="collapsible-header" (click)="toggleFilters()">
+      <mat-icon>filter_list</mat-icon>
+      <h3>Szűrők</h3>
+      <mat-icon class="expand-icon">{{ filterExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+    </div>
+    <div class="collapsible-form-container" [class.expanded]="filterExpanded">
+      <div class="filter-controls">
+        <mat-form-field appearance="outline">
+            <mat-label>Kategória</mat-label>
+            <mat-select [(value)]="selectedCategory" (selectionChange)="loadFurniture()">
+              <mat-option [value]="undefined">Összes kategória</mat-option>
+              @for (category of categories; track category.id) {
+                <mat-option [value]="category.id">{{ category.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Rendezés</mat-label>
+            <mat-select [(value)]="sortBy" (selectionChange)="loadFurniture()">
+              <mat-option value="name">Név szerint</mat-option>
+              <mat-option value="price">Ár szerint</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Irány</mat-label>
+            <mat-select [(value)]="sortDirection" (selectionChange)="loadFurniture()">
+              <mat-option value="asc">Növekvő</mat-option>
+              <mat-option value="desc">Csökkenő</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+
+  @if (isAdmin) {
+    <mat-card class="filter-card">
+      <div class="collapsible-header" (click)="toggleCategoryForm()">
+        <mat-icon>category</mat-icon>
+        <h3>Kategória kezelés</h3>
+        <mat-icon class="expand-icon">{{ categoryFormExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </div>
+      <div class="collapsible-form-container" [class.expanded]="categoryFormExpanded">
+        <div class="filter-controls">
+          <mat-form-field appearance="outline"> 
+              <mat-label>Új kategória neve</mat-label>
+              <input matInput [(ngModel)]="newCategoryName" placeholder="Új kategória neve">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+              <mat-label>Kategória törlése</mat-label>
+              <mat-select [(value)]="categoryToDelete">
+                @for (cat of categories; track cat.id) {
+                  <mat-option [value]="cat.id">
+                    {{ cat.name }}
+                  </mat-option>
+                }
+                @empty {
+                  <mat-option disabled>Nincsenek kategóriák</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="button-group">
+              <button mat-flat-button color="primary" (click)="addCategory()">Hozzáad</button>
+              <button mat-flat-button color="warn" (click)="deleteCategory()">Törlés</button>
+        </div>
+      </div>
+    </mat-card>
+  }
+
+  @if (isAdmin) {
+    <mat-card class="filter-card">
+      <div class="collapsible-header" (click)="toggleFurnitureForm()">
+        <mat-icon>edit</mat-icon>
+        <h3>Bútor kezelés</h3>
+        <mat-icon class="expand-icon">{{ furnitureFormExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </div>
+      <div class="collapsible-form-container" [class.expanded]="furnitureFormExpanded">
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <div class="filter-controls">
+              <mat-form-field appearance="outline">
+              <mat-label>Bútor neve</mat-label>
+              <input matInput placeholder="Bútór" formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Ár (Ft)</mat-label>
+              <input matInput type="number" formControlName="price">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Mennyiség</mat-label>
+              <input matInput type="number" formControlName="quantity">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Kép linkje</mat-label>
+              <input matInput placeholder="Kép link" formControlName="picURL">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Kategória</mat-label>
+              <mat-select formControlName="categoryId">
+                @for (cat of categories; track cat.id) {
+                  <mat-option [value]="cat.id">
+                    {{ cat.name }}
+                  </mat-option>
+                }
+                @empty {
+                  <mat-option disabled>Előbb hozz létre kategóriát</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        
+          <div class="button-group">
+            <button mat-flat-button color="primary" type="submit">
+              @if (editingFurniture) { Frissít } @else { Hozzáad }
+            </button>
+            @if (editingFurniture) {
+              <button mat-button type="button" (click)="cancelEdit()">Mégse</button>
+            }
+          </div>
+        </form>
+      </div>
+    </mat-card>
+  }
+
+  <mat-card>
+    <div class="furniture-grid">
+      @for (furniture of furnitures; track furniture.id) {
+          <app-furniture-card 
+            class="furniture-card"
+            [furniture]="furniture"
+            [categories]="categories"
+            [isAdmin]="isAdmin"
+            [isLoggedIn]="isLoggedIn"
+            (addToCart)="addToCart($event)"
+            (edit)="startEdit($event)"
+            (delete)="delete($event)"
+          ></app-furniture-card>
+        }
+        @empty {
+          <p class="no-items">Nincsenek bútorok</p>
+        }
+    </div>
+  </mat-card>
+</div>

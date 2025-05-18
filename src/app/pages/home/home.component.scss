@@ -1,0 +1,47 @@
+@use '../products/products.component.scss';
+
+.content-container {
+  @extend .content-container;
+}
+
+.banner-container {
+  @extend .banner-container;
+}
+
+.filter-card {
+  @extend .filter-card;
+}
+
+.furniture-grid {
+  @extend .furniture-grid;
+}
+
+.furniture-card {
+  @extend .furniture-card;
+}
+
+.no-items {
+  @extend .no-items;
+}
+
+.button-group {
+  @extend .button-group;
+}
+
+.header{
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+}

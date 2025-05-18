@@ -1,0 +1,116 @@
+<div class="content-container">
+  <div class="banner-container">
+    <img src="profile_cover.png" alt="Profil" class="banner-image">
+    <div class="banner-text">
+      <h1>Profilom</h1>
+      <p>Itt kezelheti személyes adatait és rendeléseit</p>
+    </div>
+  </div>
+
+  @if (!loading && user) {
+    <mat-card class="filter-card">
+      <div class="collapsible-header">
+        <mat-icon>edit</mat-icon>
+        <h3>Személyes adatok</h3>
+      </div>
+
+      <form (submit)="updateUser(); $event.preventDefault()" class="filter-controls">
+        <div class="filter-controls">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Vezetéknév</mat-label>
+            <input matInput [(ngModel)]="lastname" name="lastname" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Keresztnév</mat-label>
+            <input matInput [(ngModel)]="firstname" name="firstname" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Cím</mat-label>
+            <input matInput [(ngModel)]="address" name="address" required />
+          </mat-form-field>
+          <mat-slide-toggle
+            [checked]="user.isAdmin"
+            (change)="toggleAdminStatus()"
+            class="admin-toggle"
+          >
+            Admin jogosultság
+          </mat-slide-toggle>
+        </div>
+
+        <div class="button-group">
+          
+          
+          <button mat-flat-button color="primary" type="submit">Adatok frissítése</button>
+        </div>
+
+        <div class="button-group delete-user">
+        <button mat-flat-button color="warn" (click)="deleteUser()">
+          <mat-icon>warning</mat-icon>
+          Felhasználó törlése
+        </button>
+      </div>
+      </form>
+    </mat-card>
+
+    <mat-card class="filter-card">
+      <div class="collapsible-header">
+        <mat-icon>receipt</mat-icon>
+        <h3>Rendelések</h3>
+      </div>
+
+      @if (orders.length === 0) {
+        <p class="no-items">Nincsenek rendelések</p>
+      } @else {
+        <mat-accordion>
+          @for (orderData of ordersWithDetails; track orderData.order.id) {
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ orderData.order.date | date:'yyyy.MM.dd HH:mm' }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  Összeg: {{orderData.order.total | simpleCurrency}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <mat-list>
+                @for (item of orderData.items; track item.furniture.id) {
+                  <mat-list-item>
+                    <img matListItemAvatar 
+                        [src]="item.furniture.picURL" 
+                        alt="{{item.furniture.name}} képe"
+                        class="circle-image">
+                    <div matListItemTitle>{{ item.furniture.name }}</div>
+                    <div matListItemLine>
+                      {{ item.furniture.price | simpleCurrency }} × 
+                      {{ item.quantity }} db
+                    </div>
+                    <div matListItemLine class="item-total">
+                      Rész összeg: {{ item.furniture.price * item.quantity | simpleCurrency }}
+                    </div>
+                  </mat-list-item>
+                }
+              </mat-list>
+
+              <div class="button-group">
+                <button mat-stroked-button 
+                        color="warn" 
+                        (click)="deleteOrder(user.id, orderData.order.id)">
+                  <mat-icon>delete</mat-icon>
+                  Rendelés törlése
+                </button>
+              </div>
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+      }
+    </mat-card>
+  } @else {
+  @if (loading) {
+    <div style="text-align: center; margin-top: 20px;">Betöltés...</div>
+  } @else {
+    <div style="text-align: center; margin-top: 20px;">Nincs bejelentkezett felhasználó</div>
+  }
+}

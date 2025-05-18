@@ -1,0 +1,52 @@
+nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 3rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+}
+
+a:hover {
+    color: darkgray;
+}
+
+.active-list-item {
+    font-weight: bold;
+}
+
+mat-sidenav-container {
+    height: 100%;
+}
+
+mat-toolbar{
+    background-color: transparent;
+    color: black;
+    mat-icon {
+        color: black;
+    }
+}
+
+.menu-toggle-button {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle-button {
+        display: block;
+    }
+    
+    nav ul {
+        display: none;
+    }
+}

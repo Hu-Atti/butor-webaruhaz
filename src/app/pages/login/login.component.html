@@ -1,0 +1,42 @@
+<div class="content-container">
+  <div class="banner-container">
+    <img src="login_cover.png" alt="Bejelentkezés" class="banner-image">
+    <div class="banner-text">
+        <h1>Bejelentkezés</h1>
+        <p>Kérjük, jelentkezzen be fiókjába a továbblépéshez</p>
+    </div>
+  </div>
+
+  <mat-card class="filter-card">
+    <div class="collapsible-header">
+      <mat-icon>account_circle</mat-icon>
+      <h3>Fiók adatok</h3>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="filter-controls">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <mat-icon matSuffix>email</mat-icon>
+        <input matInput formControlName="email" type="email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Jelszó</mat-label>
+        <mat-icon matSuffix>lock</mat-icon>
+        <input matInput formControlName="password" type="password">
+      </mat-form-field>
+
+      <div class="button-group">
+        <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+          <mat-icon>login</mat-icon>
+          {{ loading ? 'Bejelentkezés...' : 'Bejelentkezés' }}
+        </button>
+        
+        <button mat-flat-button color="accent" [routerLink]="['/register']">
+          <mat-icon>person_add</mat-icon>
+          Regisztráció
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

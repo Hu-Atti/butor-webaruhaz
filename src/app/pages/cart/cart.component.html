@@ -1,0 +1,58 @@
+<div class="content-container">
+  <div class="banner-container">
+    <img src="cart_cover.png" alt="Kosár" class="banner-image">
+    <div class="banner-text">
+      <h1>Kosaram</h1>
+      <p>Tekintse át kiválasztott termékeit, és ha kész, adja le rendelését</p>
+    </div>
+  </div>
+
+  <mat-card class="filter-card">
+    <mat-card-header>
+      <h3 class="header">
+        <mat-icon>shopping_cart</mat-icon>
+        Kosár tartalma:
+      </h3>
+    </mat-card-header>
+
+    @if (!order) {
+      <mat-card-content>
+        <p class="no-items">A kosarad üres</p>
+      </mat-card-content>
+    } @else {
+      <mat-list>
+        @for (item of items; track item.furniture.id; let i = $index) {
+          <mat-list-item>
+            <img matListItemAvatar [src]="item.furniture.picURL" alt="Termék képe">
+            <div matListItemTitle>{{ item.furniture.name }}</div>
+            <div matListItemLine>
+              <span>{{ item.price | simpleCurrency }} × </span>
+              <button mat-icon-button (click)="updateQuantity(i, -1)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span>{{ item.quantity }}</span>
+              <button mat-icon-button (click)="updateQuantity(i, 1)">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="removeItem(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        }
+      </mat-list>
+
+      <div class="button-group">
+        <p class="total-price">Összesen: {{ total | simpleCurrency }}</p>
+        <button 
+          mat-flat-button 
+          color="primary" 
+          (click)="confirmOrder()"
+          [disabled]="items.length === 0"
+        >
+          Rendelés leadása
+        </button>
+      </div>
+    }
+  </mat-card>
+</div>
