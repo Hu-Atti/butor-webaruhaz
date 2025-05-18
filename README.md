@@ -34,16 +34,16 @@ Menj biztosra és ellenőrizd!
 - furniture-card.component.ts 32:          @Output() delete = new EventEmitter<string>();
 
 # Legalább 10 különböző Material elem helyes használata.
-- app.component.html 1:            <mat-sidenav-container>
-- app.component.html 6:            <mat-toolbar>
-- cart.component.html 10:          <mat-card class="filter-card">
-- cart.component.html 11:          <mat-card-header>
-- cart.component.html 23:          <mat-list>
-- cart.component.html 25:          <mat-list-item>
-- cart.component.html 30:          <button mat-icon-button (click)="updateQuantity(i, -1)">
-- login.component.html 18:         <mat-label>Email</mat-label>
-- login.component.html 23:         <mat-form-field appearance="outline">
-- products.component.html 20:       <mat-select [(value)]="selectedCategory" (selectionChange)="loadFurniture()">
+- app.component.html 1:            mat-sidenav-container
+- app.component.html 6:            mat-toolbar
+- cart.component.html 10:          mat-card
+- cart.component.html 11:          mat-card-header
+- cart.component.html 23:          mat-list
+- cart.component.html 25:          mat-list-item
+- cart.component.html 30:          button mat-icon-button
+- login.component.html 18:         mat-label
+- login.component.html 23:         mat-form-field appearance="outline"
+- products.component.html 20:      mat-select
 
 # Legalább 2 saját Pipe osztály írása és használata
 - pipes / simple-currency      furniture-card.component.html 19:       <p>Ár: {{ furniture.price | simpleCurrency }}</p>
